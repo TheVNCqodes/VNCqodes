@@ -1,7 +1,8 @@
 
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout)
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import QTimer, QTime, Qt
+from PyQt5.QtGui import QIcon
 
 class Stopwatch(QWidget):
     def __init__(self):
@@ -14,39 +15,41 @@ class Stopwatch(QWidget):
         self.timer = QTimer(self)
         self.initUI()
 
-        def initUI(self):
-            self.setWindowTitle("VNC Stopwatch")
+    def initUI(self):
+        self.setWindowTitle("VNC Stopwatch")
+        self.setWindowIcon(QIcon("cali 4.jpg"))
 
         vbox = QVBoxLayout()
-        vbox.addwidget(self.time_label)
+        vbox.addWidget(self.time_label)
 
         self.setLayout(vbox)
 
         self.time_label.setAlignment(Qt.AlignCenter)
+        self.time_label.setStyleSheet("color: #b686db")
 
-        hbox = QHBoxLayout
+        hbox = QHBoxLayout()
 
-        hbox.addwidget(self.start_button)
-        hbox.addwidget(self.stop_button)
-        hbox.addwidget(self.reset_button)
+        hbox.addWidget(self.start_button)
+        hbox.addWidget(self.stop_button)
+        hbox.addWidget(self.reset_button)
 
         vbox.addLayout(hbox)
 
         self.setStyleSheet("""
-           QPushButton, QLabel {
+           QPushButton, QLabel{
                 padding: 20px;
                 font-weight: bold;
                 font-family: calibri;
                 }
             QPushButton{
                 font-size: 50px;
-        }
-        QLabel{
+            }
+            QLabel{
             font-size: 120px;
-            background-color: hsl (285, 72%, 39%)
+            background-color: hsl(285, 72%, 39%);
             border-radius: 20px;
             }
-        """)
+            """)
 
         self.start_button.clicked.connect(self.start)
         self.stop_button.clicked.connect(self.stop)
@@ -54,34 +57,34 @@ class Stopwatch(QWidget):
         self.timer.timeout.connect(self.update_display)
 
 
-        def start(self):
-            self.timer.start(10)
+    def start(self):
+     self.timer.start(10)
 
-        def stop(self):
-            self.timer.stop
+    def stop(self):
+        self.timer.stop()
 
-        def reset(self):
-            self.timer.stop()
-            self.time = QTime(0, 0, 0, 0)
-            self.time_label.setText(self.format_time(self.time))
+    def reset(self):
+         self.timer.stop()
+         self.time = QTime(0, 0, 0, 0)
+         self.time_label.setText(self.format_time(self.time))
 
-        def format_time(self, time):
-            hours = time.hour()
-            minutes = time.minute()
-            seconds = time.second()
-            milliseconds = time.msec() // 10
-            return f"{hours:02}:{minutes:02}.{milliseconds:02}"
+    def format_time(self,time):
+         hours = time.hour()
+         minutes = time.minute()
+         seconds = time.second()
+         milliseconds = time.msec() // 10
+         return f"{hours:02}:{minutes:02}.{milliseconds:02}"
 
-        def update_display(self):
+    def update_display(self):
             self.time = self.time.addMSecs(10)
             self.time_label.setText(self.format_time(self.time))
 
 
-        if __name__ == "__main__":
-            app = QApplication(sys.argv)
-            stopwatch = Stopwatch()
-            stopwatch.show()
-            sys.exit(app.exec_())
+if __name__ == "__main__":
+     app = QApplication(sys.argv)
+     stopwatch = Stopwatch()
+     stopwatch.show()
+     sys.exit(app.exec_())
 
 
 
